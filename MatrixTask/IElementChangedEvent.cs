@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    public interface IElementChangedEvent<in T>
+    public interface IElementChangedEvent
     {
         event EventHandler<ElementChangedEventArgs> elementChanged;
-        void ChangeElement(int line, int column, T value);
     }
 }

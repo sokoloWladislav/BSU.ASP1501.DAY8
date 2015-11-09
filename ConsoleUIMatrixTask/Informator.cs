@@ -9,11 +9,20 @@ namespace ConsoleUIMatrixTask
 {
     public class Informator
     {
-        public Informator(IElementChangedEvent<int> matrix)
+        public Informator(IElementChangedEvent matrix)
         {
-            matrix.elementChanged += merhod;
+            matrix.elementChanged += Inform;
         }
 
-        //implement method
+        public void Unregister(IElementChangedEvent matrix)
+        {
+            matrix.elementChanged -= Inform;
+        }
+
+        private void Inform(object sender, ElementChangedEventArgs e)
+        {
+            Console.WriteLine("the element in {0} line {1} column is changed", e.Line, e.Column);
+            Console.ReadKey();
+        }
     }
 }

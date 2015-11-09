@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    class DiagonalMatrix<T> : AbstractMatrix<T>, IElementChangedEvent<T>
+    class DiagonalMatrix<T> : AbstractMatrix<T>, IElementChangedEvent
     {
         //implement containers, ctors
 
@@ -20,7 +20,7 @@ namespace MatrixTask
                 temp(this, e);
         }
 
-        public void ChangeElement(int line, int column, T value)
+        public void ChangeElement(int line, int column)
         {
             ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
 
