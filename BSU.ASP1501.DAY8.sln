@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTask", "MatrixTask\MatrixTask.csproj", "{B1B027F5-498E-49FE-B528-AB5A52BA9B08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUIMatrixTask", "ConsoleUIMatrixTask\ConsoleUIMatrixTask.csproj", "{8A48F7AD-AF18-4CDB-B169-1826F745A8A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1B027F5-498E-49FE-B528-AB5A52BA9B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B027F5-498E-49FE-B528-AB5A52BA9B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B027F5-498E-49FE-B528-AB5A52BA9B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B027F5-498E-49FE-B528-AB5A52BA9B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A48F7AD-AF18-4CDB-B169-1826F745A8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A48F7AD-AF18-4CDB-B169-1826F745A8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A48F7AD-AF18-4CDB-B169-1826F745A8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A48F7AD-AF18-4CDB-B169-1826F745A8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
