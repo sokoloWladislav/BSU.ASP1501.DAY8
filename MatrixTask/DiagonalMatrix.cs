@@ -7,9 +7,24 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    class DiagonalMatrix<T> : AbstractMatrix<T>, IElementChangedEvent
+    class DiagonalMatrix<T> : AbstractSquareMatrix<T>, IElementChangedEvent
     {
-        //implement containers, ctors
+        private Container<T> container;
+
+        public readonly int dimension;
+
+        public DiagonalMatrix(T[,] array)
+        {
+            if (array == null)
+                throw new ArgumentNullException();
+            dimension = (int)Math.Sqrt(array.Length);
+            container = new Container<T>(array, dimension);
+        }
+
+        public override T[,] GetCoefs()
+        {
+            return container.coefs;
+        }
 
         public event EventHandler<ElementChangedEventArgs> elementChanged;
 
@@ -20,13 +35,14 @@ namespace MatrixTask
                 temp(this, e);
         }
 
-        public void ChangeElement(int line, int column)
+        public void SetElement(int line, int column, T element)
         {
-            ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
-
-            //implement changing of element
-
-            OnElementChanged(e);
+            if (line == column && line < dimension)
+            {
+                ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
+                container.coefs[line, column] = element;
+                OnElementChanged(e);
+            }
         }
     }
 }

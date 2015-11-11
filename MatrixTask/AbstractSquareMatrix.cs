@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    public abstract class AbstractMatrix<T>
+    public abstract class AbstractSquareMatrix<T>
     {
-        private int Dimention { get; set; }
+        abstract public T[,] GetCoefs();
     }
 }

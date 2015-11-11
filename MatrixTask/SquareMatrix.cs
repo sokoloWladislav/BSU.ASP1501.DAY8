@@ -7,9 +7,26 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    public class SquareMatrix<T> : AbstractMatrix<T>, IElementChangedEvent
+    public class SquareMatrix<T> : AbstractSquareMatrix<T>, IElementChangedEvent
     {
-        //implement containers, ctors
+        private Container<T> container;
+
+        public readonly int dimension;
+
+        public SquareMatrix(T[,] array)
+        {
+            if(array == null)
+                throw new ArgumentNullException();
+            if(!IsSquareArray(array))
+                throw new ArgumentException();
+            dimension = (int)Math.Sqrt(array.Length);
+            container = new Container<T>(array, dimension);
+        }
+
+        public override T[,] GetCoefs()
+        {
+            return container.coefs;
+        }
 
         public event EventHandler<ElementChangedEventArgs> elementChanged;
 
@@ -20,13 +37,19 @@ namespace MatrixTask
                 temp(this, e);
         }
 
-        public void ChangeElement(int line, int column)
+        public void SetElement(int line, int column, T element)
         {
-            ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
+            if (line < dimension && column < dimension)
+            {
+                ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
+                container.coefs[line, column] = element;
+                OnElementChanged(e);
+            }
+        }
 
-            //implement changing of element
-
-            OnElementChanged(e);
+        private bool IsSquareArray(T[,] array)
+        {
+            return array.GetLength(0) == array.GetLength(1);
         }
     }
 }

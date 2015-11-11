@@ -11,11 +11,10 @@ namespace ConsoleUIMatrixTask
     {
         static void Main(string[] args)
         {
-            SquareMatrix<int> squareMatrix = new SquareMatrix<int>();
+            SquareMatrix<int> squareMatrix = new SquareMatrix<int>(new int[2,2]);
             Informator informator = new Informator(squareMatrix);
 
             squareMatrix.ChangeElement(2, 3);
-            
         }
     }
 }

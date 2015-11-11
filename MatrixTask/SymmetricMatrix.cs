@@ -7,9 +7,26 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    class SymmetricMatrix<T> : AbstractMatrix<T>, IElementChangedEvent
+    class SymmetricMatrix<T> : AbstractSquareMatrix<T>, IElementChangedEvent
     {
-        //implement containers, ctors
+        private Container<T> container;
+
+        public readonly int dimension;
+
+        public SymmetricMatrix(T[,] array)
+        {
+            if (array == null)
+                throw new ArgumentNullException();
+            if (!IsSymmetricArray(array))
+                throw new ArgumentException();
+            dimension = (int)Math.Sqrt(array.Length);
+            container = new Container<T>(array, dimension);
+        }
+
+        public override T[,] GetCoefs()
+        {
+            return container.coefs;
+        }
 
         public event EventHandler<ElementChangedEventArgs> elementChanged;
 
@@ -20,13 +37,26 @@ namespace MatrixTask
                 temp(this, e);
         }
 
-        public void ChangeElement(int line, int column)
+        public void SetElement(int line, int column, T element)
         {
-            ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
+            if (line < dimension && column < dimension)
+            {
+                ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
+                container.coefs[line, column] = element;
+                container.coefs[column, line] = element;
+                OnElementChanged(e);
+            }
+        }
 
-            //implement changing of element
-
-            OnElementChanged(e);
+        private bool IsSymmetricArray(T[,] array)
+        {
+            if (array.GetLength(0) != array.GetLength(1))
+                return false;
+            for(int i = 0; i < dimension; ++i)
+                for(int j = 0; j < dimension; ++j)
+                    if (!Equals(container.coefs[i, j], container.coefs[j, i]))
+                        return false;
+            return true;
         }
     }
 }
