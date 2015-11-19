@@ -8,6 +8,6 @@ namespace MatrixTask
 {
     public interface IElementChangedEvent
     {
-        event EventHandler<ElementChangedEventArgs> elementChanged;
+        //event EventHandler<ElementChangedEventArgs> elementChanged;
     }
 }

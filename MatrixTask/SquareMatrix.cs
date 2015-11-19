@@ -7,49 +7,58 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    public class SquareMatrix<T> : AbstractSquareMatrix<T>, IElementChangedEvent
+    public class SquareMatrix<T> : AbstractSquareMatrix<T>
     {
-        private Container<T> container;
-
-        public readonly int dimension;
-
-        public SquareMatrix(T[,] array)
-        {
-            if(array == null)
-                throw new ArgumentNullException();
-            if(!IsSquareArray(array))
-                throw new ArgumentException();
-            dimension = (int)Math.Sqrt(array.Length);
-            container = new Container<T>(array, dimension);
-        }
-
-        public override T[,] GetCoefs()
-        {
-            return container.coefs;
-        }
+        private T[,] container;
 
         public event EventHandler<ElementChangedEventArgs> elementChanged;
 
-        protected virtual void OnElementChanged(ElementChangedEventArgs e)
+        public override T this[int i, int j]
+        {
+            get
+            {
+                if(i >= dimension || j >= dimension || i < 0 || j < 0)
+                    throw new ArgumentException();
+                return container[i, j];
+            }
+            set
+            {
+                if (i >= dimension || j >= dimension || i < 0 || j < 0)
+                    throw new ArgumentException();
+                ElementChangedEventArgs e = new ElementChangedEventArgs(i, j);
+                container[i, j] = value;
+                OnElementChanged(e);
+            }
+        }
+
+        public SquareMatrix(T[,] array)
+        {
+            CheckIsSquareArray(array);
+            dimension = array.GetLength(0);
+            InitContainer(array);
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs e)
         {
             EventHandler<ElementChangedEventArgs> temp = Interlocked.CompareExchange(ref elementChanged, null, null);
             if (temp != null)
                 temp(this, e);
         }
 
-        public void SetElement(int line, int column, T element)
+        private void CheckIsSquareArray(T[,] array)
         {
-            if (line < dimension && column < dimension)
-            {
-                ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
-                container.coefs[line, column] = element;
-                OnElementChanged(e);
-            }
+            if (array == null)
+                throw new ArgumentNullException();
+            if (array.GetLength(0) != array.GetLength(1))
+                throw new ArgumentException();
         }
 
-        private bool IsSquareArray(T[,] array)
+        private void InitContainer(T[,] array)
         {
-            return array.GetLength(0) == array.GetLength(1);
+            container = new T[dimension, dimension];
+            for (int i = 0; i < dimension; ++i)
+                for (int j = 0; j < dimension; ++j)
+                    container[i, j] = array[i, j];
         }
     }
 }

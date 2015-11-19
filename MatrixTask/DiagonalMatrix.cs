@@ -7,42 +7,53 @@ using System.Threading.Tasks;
 
 namespace MatrixTask
 {
-    class DiagonalMatrix<T> : AbstractSquareMatrix<T>, IElementChangedEvent
+    public class DiagonalMatrix<T> : AbstractSquareMatrix<T>
     {
-        private Container<T> container;
-
-        public readonly int dimension;
-
-        public DiagonalMatrix(T[,] array)
-        {
-            if (array == null)
-                throw new ArgumentNullException();
-            dimension = (int)Math.Sqrt(array.Length);
-            container = new Container<T>(array, dimension);
-        }
-
-        public override T[,] GetCoefs()
-        {
-            return container.coefs;
-        }
+        private T[] container;
 
         public event EventHandler<ElementChangedEventArgs> elementChanged;
 
-        protected virtual void OnElementChanged(ElementChangedEventArgs e)
+        public override T this[int i, int j]
+        {
+            get
+            {
+                if(i >= dimension || j >= dimension || i < 0 || j < 0)
+                    throw new ArgumentException();
+                if(i == j)
+                    return container[i];
+                // return default value for type
+                return container[i];                 //mistake
+            }
+            set
+            {
+                if (i >= dimension || i < 0 ||  i != j)
+                    throw new ArgumentException();
+                ElementChangedEventArgs e = new ElementChangedEventArgs(i, j);
+                container[i] = value;
+                OnElementChanged(e);
+            }
+        }
+
+        public DiagonalMatrix(T[] array)
+        {
+            if (array == null)
+                throw new ArgumentNullException();
+            dimension = array.Length;
+            InitContainer(array);
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs e)
         {
             EventHandler<ElementChangedEventArgs> temp = Interlocked.CompareExchange(ref elementChanged, null, null);
             if (temp != null)
                 temp(this, e);
         }
 
-        public void SetElement(int line, int column, T element)
+        private void InitContainer(T[] array)
         {
-            if (line == column && line < dimension)
-            {
-                ElementChangedEventArgs e = new ElementChangedEventArgs(line, column);
-                container.coefs[line, column] = element;
-                OnElementChanged(e);
-            }
+            container = new T[dimension];
+            for (int i = 0; i < dimension; ++i)
+                    container[i] = array[i];
         }
     }
 }

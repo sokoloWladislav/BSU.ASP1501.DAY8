@@ -8,6 +8,9 @@ namespace MatrixTask
 {
     public abstract class AbstractSquareMatrix<T>
     {
-        abstract public T[,] GetCoefs();
+        public int dimension;
+
+        protected abstract void OnElementChanged(ElementChangedEventArgs e);
+        abstract public T this[int i, int j] { get; set; }
     }
 }
